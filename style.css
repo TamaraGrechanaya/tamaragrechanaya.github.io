@@ -1,0 +1,36 @@
+* { box-sizing: border-box; }
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  max-width: 980px;
+  margin: 60px auto;
+  padding: 0 30px;
+  color: #222;
+  line-height: 1.65;
+  font-size: 17px;
+}
+.layout { display: flex; gap: 50px; align-items: flex-start; }
+.sidebar { flex: 0 0 230px; position: sticky; top: 40px; }
+.sidebar img {
+  width: 200px; height: 200px; object-fit: cover;
+  border-radius: 4px; margin-bottom: 18px;
+}
+.sidebar h1 { font-size: 22px; margin: 0 0 6px; }
+.sidebar .role { color: #666; font-size: 15px; margin-bottom: 18px; }
+.sidebar nav a {
+  display: block; color: #222; text-decoration: none;
+  padding: 4px 0; font-size: 16px;
+}
+.sidebar nav a:hover, .sidebar nav a.active { color: #8a1c1c; }
+.sidebar .contact { margin-top: 20px; font-size: 14px; color: #555; }
+.sidebar .contact a { color: #555; }
+main { flex: 1; min-width: 0; }
+main h2 { font-size: 22px; margin-top: 30px; border-bottom: 1px solid #ddd; padding-bottom: 6px; }
+main h3 { font-size: 18px; margin-top: 24px; }
+main a { color: #8a1c1c; }
+.course { margin-bottom: 22px; }
+.course .meta { color: #777; font-size: 14px; }
+ul.clean { padding-left: 20px; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { position: static; flex: 1; }
+}
