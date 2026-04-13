@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Multimodal Computational Methods in Political Science — Tamara Grechanaya</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .schedule { width: 100%; border-collapse: collapse; margin: 16px 0 30px; font-size: 15px; }
+  .schedule th, .schedule td { text-align: left; padding: 6px 10px; border-bottom: 1px solid #eee; }
+  .schedule th { color: #666; font-weight: normal; font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .lecture { margin-bottom: 32px; padding-bottom: 18px; border-bottom: 1px solid #eee; }
+  .lecture h3 { margin-bottom: 4px; }
+  .lecture .date { color: #888; font-size: 14px; margin-bottom: 10px; }
+  .lecture .label { font-weight: bold; font-size: 14px; color: #555; margin-top: 10px; display: block; }
+  .lecture ul { margin: 4px 0 0; padding-left: 20px; font-size: 15px; }
+  .tbc { color: #999; font-style: italic; }
+</style>
 </head>
 <body>
 <div class="layout">
@@ -25,7 +36,109 @@
     <h2>Multimodal Computational Methods in Political Science</h2>
     <p><em>MA seminar · Summer semester 2026 · LMU Munich, Geschwister-Scholl-Institut</em></p>
 
-    <p>This page will host the course materials — syllabus, slides, notebooks, and readings — once the course begins. Please check back soon.</p>
+    <h2>Course overview</h2>
+    <p>This MA seminar introduces students to computational methods for analyzing multimodal political data — text, images, video, and audio. The course is organized in two blocks. The first half covers text-as-data methods, from classical preprocessing and supervised classification through word embeddings, topic models, sequence models, and modern Transformer-based approaches such as BERT. The second half extends these ideas to visual, video, and audio data, covering the methodological and substantive challenges of analyzing non-textual political content.</p>
+  
+
+    <h3>Instructors</h3>
+    <p><strong>Block I — Text analysis (Lectures 1–7):</strong> Tamara Grechanaya · <a href="mailto:Tamara.Grechanaya@lmu.de">Tamara.Grechanaya@lmu.de</a><br>
+    <strong>Block II — Visual / video / audio (Lectures 8–14):</strong> Clara Fochler · <a href="mailto:clara.fochler@gsi.lmu.de">clara.fochler@gsi.lmu.de</a></p>
+
+
+    <h2>General resources</h2>
+    <ul class="clean">
+      <li>Grimmer, Roberts &amp; Stewart (2022). <em>Text as Data</em>. Princeton University Press. The political-science perspective on text analysis methods.</li>
+      <li>Jurafsky &amp; Martin. <em>Speech and Language Processing</em> (3rd ed., draft). Free at <a href="https://web.stanford.edu/~jurafsky/slp3/">web.stanford.edu/~jurafsky/slp3</a>. Comprehensive NLP reference.</li>
+    </ul>
+
+    <h2>Block I — Text analysis</h2>
+
+    <div class="lecture">
+      <h3>Lecture 1 — Text as Data: Foundations &amp; Preprocessing</h3>
+      <div class="date">14 April 2026</div>
+      <span class="label">Required reading</span>
+      <ul>
+        <li>Grimmer &amp; Stewart (2013). "Text as Data: The Promise and Pitfalls of Automatic Content Analysis Methods for Political Texts." <em>Political Analysis</em> 21(3), 267–297.</li>
+      </ul>
+      <span class="label">Optional reading</span>
+      <ul>
+        <li>Grimmer, Roberts &amp; Stewart (2022). <em>Text as Data</em>, Chapters 1 to 5.</li>
+      </ul>
+      <span class="label">Tutorial</span>
+      <ul>
+        <li><a href="#">R code </a></li>
+      </ul>
+    </div>
+
+    <div class="lecture">
+      <h3>Lecture 2 — Classical Text Classification: Logistic Regression &amp; Naive Bayes</h3>
+      <div class="date">21 April 2026</div>
+      <span class="label">Required reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Optional reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Tutorial</span>
+      <ul><li><a href="#">Python notebook (link TBC)</a></li></ul>
+    </div>
+
+    <div class="lecture">
+      <h3>Lecture 3 — Word Embeddings &amp; Vector Spaces</h3>
+      <div class="date">28 April 2026</div>
+      <span class="label">Required reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Optional reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Tutorial</span>
+      <ul><li><a href="#">Python notebook (link TBC)</a></li></ul>
+    </div>
+
+    <div class="lecture">
+      <h3>Lecture 4 — Document Representations &amp; Topic Models</h3>
+      <div class="date">5 May 2026</div>
+      <span class="label">Required reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Optional reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Tutorial</span>
+      <ul><li><a href="#">Python notebook (link TBC)</a></li></ul>
+    </div>
+
+    <div class="lecture">
+      <h3>Lecture 5 — Neural Networks &amp; Sequence Models</h3>
+      <div class="date">12 May 2026</div>
+      <span class="label">Required reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Optional reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Tutorial</span>
+      <ul><li><a href="#">Python notebook (link TBC)</a></li></ul>
+    </div>
+
+    <div class="lecture">
+      <h3>Lecture 6 — Attention &amp; the Transformer Architecture</h3>
+      <div class="date">19 May 2026</div>
+      <span class="label">Required reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Optional reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Tutorial</span>
+      <ul><li><a href="#">Python notebook (link TBC)</a></li></ul>
+    </div>
+
+    <div class="lecture">
+      <h3>Lecture 7 — Transfer Learning &amp; Fine-Tuning BERT</h3>
+      <div class="date">26 May 2026</div>
+      <span class="label">Required reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Optional reading</span>
+      <ul><li class="tbc">TBC</li></ul>
+      <span class="label">Tutorial</span>
+      <ul><li><a href="#">Python notebook (link TBC)</a></li></ul>
+    </div>
+
+    <h2>Block II — Visual, video &amp; audio analysis</h2>
+    <p class="tbc">Lectures 8–14 are taught by Clara Fochler. Detailed topics, readings, and tutorials will be added soon.</p>
+
   </main>
 </div>
 </body>
