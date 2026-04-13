@@ -1,6 +1,6 @@
 # Lecture 1 — Text as Data: Foundations & Preprocessing
 
-**Methods Seminar: Text Analysis for Political Science**
+**Methods Seminar: Multimodal Computational Methods in Political Science**
 **Computational Social Science Program, LMU Munich**
 
 ---
@@ -22,7 +22,7 @@ By the end of this lecture, you should be able to:
 
 ### The motivation
 
-Politics is conducted through language. Almost everything political scientists care about is expressed in text: speeches in parliament, party manifestos, court rulings, media coverage, social media debate, diplomatic communiqués, legislative bills, interest group lobbying documents, citizens' open-ended survey responses. If you want to study political behavior at the elite level, much of what you have access to is text. If you want to study public opinion in real time rather than waiting for the next survey wave, text from social media is often your only option.
+Politics is conducted through language. Almost everything political scientists care about is expressed in text: speeches in parliament, party manifestos, court rulings, media coverage, social media debate, diplomatic communiqués, legislative bills, interest group lobbying documents, citizens' open-ended survey responses. If you want to study political behavior at the elite level, much of what you have access to is text. If you want to study public opinion in real time rather than waiting for the next survey wave, text from social media (or other sources) is often your only option.
 
 For most of the discipline's history, this text was analyzed by hand. The Manifesto Project (formerly the Comparative Manifestos Project) is a famous example: starting in 1979, trained human coders read every sentence of every party's electoral manifesto in dozens of countries and assigned it to one of 56 policy categories. The result is a dataset that has supported hundreds of papers on party positions and electoral competition. But the work involved is staggering: tens of thousands of coder-hours to build and maintain. Inter-coder reliability — the extent to which two different coders assign the same sentence to the same category — is often only moderate (Cohen's κ around 0.6–0.7 in many topic-coding tasks). And manual coding cannot keep up with the modern data deluge: there are millions of tweets per day, hundreds of newspaper articles per week per country, thousands of legislative speeches per year per chamber. Hand-coding simply doesn't scale.
 
@@ -200,9 +200,9 @@ For the practical session of this lecture, we will only need `quanteda`, `quante
 
 For the practical session, students should download the **ParlSpeech V2** dataset (Rauh & Schwalbach, available on Harvard Dataverse) and use the U.K. House of Commons subset, pre-filtered to a single parliament — say, 2017–2019 — to keep the corpus to about 5,000–10,000 speeches for in-class work. The relevant columns are `text`, `speaker`, `party`, `date`, and `agenda`.
 
-The walkthrough proceeds through five steps. First, load the CSV and inspect it to understand the structure. Second, build a `quanteda` corpus and tokenize: remove punctuation, numbers, and URLs; remove English stop words; lowercase. This is also a good moment to discuss with students what gets lost in each of these steps. Third, build the Document-Feature Matrix from the tokenized corpus and trim rare words to keep the matrix manageable. Fourth, group the DFM by party and inspect the top features per group — students get an immediate "aha" moment when they see the most frequent words for Labour vs. Conservative vs. Green and recognize their substantive priorities. Fifth, compute TF-IDF and use the `textstat_keyness` function to compute statistically significant party-distinctive vocabulary, then visualize with `textplot_keyness` and `ggplot2`.
+The walkthrough proceeds through five steps. First, load the CSV and inspect it to understand the structure. Second, build a `quanteda` corpus and tokenize: remove punctuation, numbers, and URLs; remove English stop words; lowercase. This is also a good moment to reflect what gets lost in each of these steps. Third, build the Document-Feature Matrix from the tokenized corpus and trim rare words to keep the matrix manageable. Fourth, group the DFM by party and inspect the top features per group — we can see the most frequent words for Labour vs. Conservative vs. Green and recognize their substantive priorities. Fifth, compute TF-IDF and use the `textstat_keyness` function to compute statistically significant party-distinctive vocabulary, then visualize with `textplot_keyness` and `ggplot2`.
 
-The discussion questions for the practical session should focus on the three things most likely to surprise students:
+The discussion questions for the practical session should focus on the three things:
 
 1. **What did stop word removal do to your data?** Inspect the output and find a case where removing a stop word probably changed the meaning.
 2. **Are the top words by party what you expected?** When they aren't — and they often aren't — this is informative. It might mean your preprocessing is too aggressive, your corpus is unbalanced, or your priors are wrong.
@@ -230,9 +230,8 @@ The discussion questions for the practical session should focus on the three thi
 
 ## Recommended reading
 
-- Benoit, K. (2020). "Text as Data: An Overview." In *The SAGE Handbook of Research Methods in Political Science and International Relations*.
+- Grimmer J., Roberts M. E. & Stewart B. M. (2022). Text as Data, Chapters 1 to 5.
 - Welbers, K., Van Atteveldt, W., & Benoit, K. (2017). "Text Analysis in R." *Communication Methods and Measures*, 11(4), 245–265.
-- Jurafsky, D., & Martin, J. H. (2025). *Speech and Language Processing*, Chapter 2: Regular Expressions, Text Normalization, Edit Distance. Available at https://web.stanford.edu/~jurafsky/slp3/2.pdf
 - The `quanteda` tutorials at https://tutorials.quanteda.io
 
 ## Looking ahead
