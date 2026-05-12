@@ -55,7 +55,7 @@ set.seed(42)
 
 # This function reads GloVe .txt format into a named matrix
 glove_tbl <- read_delim(
-  ".../wiki_giga_2024_100_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05.050_combined.txt",
+  "...//wiki_giga_2024_100_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05.050_combined.txt",
   delim = " ",
   quote = "",                  # GloVe uses raw spaces, no quotes
   col_names = c("token", paste0("d", 1:100)),
@@ -103,6 +103,8 @@ cosine_sim <- function(u, v) {
   sum(u * v) / (sqrt(sum(u^2)) * sqrt(sum(v^2)))
 }
 
+#depending on your embedings format you can use ready to implement cosine sim functiones, e.g. text2vec::sim2()
+
 # Find the k nearest neighbors of a word
 nearest_neighbors <- function(word, embeddings, k = 10) {
   if (!(word %in% rownames(embeddings))) {
@@ -130,8 +132,12 @@ nearest_neighbors <- function(word, embeddings, k = 10) {
   )
   return(result)
 }
-
-
+# What is this function for?
+#1. Take the vector for one word
+#2. Compute cosine similarity with every other word
+#3. Sort words by similarity
+#4. Return the top k most similar words
+#You can do smth similar in Word2Vec, e.g. predict(model, newdata = "immigration", type = "nearest", top_n = 10)
 # -----------------------------------------------------------------------------
 # 3. EXPLORE: Nearest Neighbors of Political Concepts
 # -----------------------------------------------------------------------------
@@ -154,6 +160,9 @@ print(nearest_neighbors("austerity", emb))
 cat("\n--- populism ---\n")
 print(nearest_neighbors("populism", emb))
 
+
+cat("\n--- politics ---\n")
+print(nearest_neighbors("politics", emb))
 # Discussion: Do the neighbors make semantic sense?
 # Are there any surprises? Any words you didn't expect?
 
@@ -257,6 +266,26 @@ solve_analogy <- function(a, b, c, embeddings, k = 5) {
   )
   return(result)
 }
+
+# This function solves word analogies using embedding arithmetic.
+# Example idea:
+#   man : king :: woman : ?
+#   target vector = king - man + woman
+#
+# Inputs:
+#   a, b, c     = words in the analogy
+#   embeddings  = matrix of word embeddings, with words as row names
+#   k           = number of nearest answers to return
+#
+# Steps:
+#   1. Check that all input words exist in the embedding vocabulary.
+#   2. Compute the target analogy vector: b - a + c.
+#   3. Compute cosine similarity between this target vector and all word vectors.
+#   4. Remove the original input words from the candidate answers.
+#   5. Sort words by similarity and return the top k closest words.
+#
+# Output:
+#   A data frame with the most similar words and their cosine similarity scores.
 
 # Classic analogies
 cat("\nking - man + woman = ?\n")
@@ -365,13 +394,24 @@ ggplot(plot_df, aes(x = PC1, y = PC2, color = category, label = word)) +
 # -----------------------------------------------------------------------------
 # 8. CONCEPT AXES: Measuring Ideology with Embeddings
 # -----------------------------------------------------------------------------
-# Define a left-right axis using seed words
+# This section creates a left-right ideology axis in the embedding space.
+# The idea is to define two poles:
+#   left pole  = words associated with left politics
+#   right pole = words associated with right politics
+#
+# Step 1:
+# Define seed words for each side of the axis.
+# These words are chosen by the researcher based on theory/domain knowledge.
 # These are words we associate with each pole of the spectrum
 left_seeds  <- c("solidarity", "equality", "welfare", "workers",
                   "collective", "redistribution", "union")
 right_seeds <- c("market", "competition", "enterprise", "individual",
                   "liberty", "privatization", "business")
 
+# Step 2:
+# Check which seed words actually exist in the embedding vocabulary.
+# Some words may be missing because they were rare, removed in preprocessing,
+# or not included in the pretrained embeddings.
 # Check availability
 left_available  <- left_seeds[left_seeds %in% rownames(emb)]
 right_available <- right_seeds[right_seeds %in% rownames(emb)]
@@ -379,20 +419,49 @@ right_available <- right_seeds[right_seeds %in% rownames(emb)]
 cat("Left seeds found: ", paste(left_available, collapse=", "), "\n")
 cat("Right seeds found:", paste(right_available, collapse=", "), "\n")
 
-# Compute average vector for each pole
+# Step 3:
+# Compute the average vector for each pole.
+# left_vec is the average location of all available left seed words.
+# right_vec is the average location of all available right seed words.
+#
+# Intuition:
+#   Instead of using one word like "welfare" to represent the left,
+#   we average several left-associated words to get a more stable left pole.
 left_vec  <- colMeans(emb[left_available, ])
 right_vec <- colMeans(emb[right_available, ])
 
-# The left-right axis is the difference
+
+# Step 4:
+# Create the left-right axis by subtracting:
+#   lr_axis = right_vec - left_vec
+#
+# This creates a direction in embedding space:
+#   left  -------------------->  right
+#
+# Because we subtract left from right:
+#   positive scores = more right-associated
+#   negative scores = more left-associated
 lr_axis <- right_vec - left_vec
 
-# Project any word onto this axis
+# Step 5:
+# Define a helper function, project_word().
+# For any word, it:
+#   1. checks whether the word exists in the embedding vocabulary
+#   2. computes cosine similarity between the word vector and the left-right axis
+#
+# The cosine similarity becomes the word's left-right score.
 project_word <- function(word, axis, embeddings) {
   if (!(word %in% rownames(embeddings))) return(NA)
   cosine_sim(embeddings[word, ], axis)
 }
 
-# Test words: a mix of politically charged and neutral terms
+# Step 6:
+# Define test words that we want to score on the left-right axis.
+# These include:
+#   - words we expect to be left-leaning
+#   - words we expect to be right-leaning
+#   - contested or politically mixed words
+#   - neutral control words
 test_words <- c(
   # Expected left-leaning
   "equality", "welfare", "poverty", "healthcare", "unions",
@@ -407,21 +476,36 @@ test_words <- c(
   "table", "bicycle", "sandwich", "umbrella"
 )
 
-# Filter to available words
+
+# Step 7:
+# Remove test words that are not in the embedding vocabulary.
 test_words <- test_words[test_words %in% rownames(emb)]
 
-# Compute projections
+
+# Step 8:
+# Compute a projection score for each available test word.
+# This gives a data frame with:
+#   word     = the tested word
+#   lr_score = its cosine similarity with the left-right axis
+
 projections <- data.frame(
   word = test_words,
   lr_score = sapply(test_words, project_word, axis = lr_axis, embeddings = emb)
 )
-projections <- projections %>% arrange(lr_score)
+projections <- projections %>% arrange(lr_score) # Step 9: Sort the words by lr_score. This orders words from most left-associated to most right-associated.
 
-# Print results
+# Step 10:
+# Print the results.
+# Interpretation:
+#   negative score = closer to the left pole
+#   positive score = closer to the right pole
+#   score near 0   = not strongly associated with either side
 cat("\nLeft-Right projections (negative = left, positive = right):\n\n")
 print(projections, row.names = FALSE)
 
-# Visualize
+# Step 11:
+# Convert word order into a factor.
+# This preserves the sorted order when plotting with ggplot.
 projections$word <- factor(projections$word, levels = projections$word)
 
 ggplot(projections, aes(x = lr_score, y = word,
